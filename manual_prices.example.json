@@ -1,15 +1,19 @@
 {
-  "Elunium": {
-    "name": "Elunium",
-    "price": 6000
+  "Leaflet_Of_Aloe": {
+    "name": "Aloe Leaflet",
+    "price": 1600
   },
-  "Oridecon": {
-    "name": "Oridecon",
-    "price": 4000
+  "Aloebera": {
+    "name": "Aloevera",
+    "price": 25000
   },
-  "Strawberry": {
-    "name": "Strawberry",
-    "price": 1200
+  "Anolian_Skin": {
+    "name": "Anolian Skin",
+    "price": 1500
+  },
+  "Inspector_Certificate": {
+    "name": "Authoritative Badge",
+    "price": 4900
   },
   "Blue_Herb": {
     "name": "Blue Herb",
@@ -18,5 +22,69 @@
   "Branch_Of_Dead_Tree": {
     "name": "Dead Branch",
     "price": 3000
+  },
+  "Earthworm_Peeling": {
+    "name": "Earthworm Peeling",
+    "price": 2000
+  },
+  "Elunium": {
+    "name": "Elunium",
+    "price": 6000
+  },
+  "Fur": {
+    "name": "Fur",
+    "price": 3200
+  },
+  "Great_Nature": {
+    "name": "Great Nature",
+    "price": 4950
+  },
+  "Yellow_Live": {
+    "name": "Green Live",
+    "price": 500
+  },
+  "Honey": {
+    "name": "Honey",
+    "price": 1200
+  },
+  "Great_Leaf": {
+    "name": "Huge Leaf",
+    "price": 500
+  },
+  "Karvodailnirol": {
+    "name": "Karvodailnirol",
+    "price": 18000
+  },
+  "Old_Blue_Box": {
+    "name": "Old Blue Box",
+    "price": 12000
+  },
+  "Oridecon": {
+    "name": "Oridecon",
+    "price": 4000
+  },
+  "Elunium_Stone": {
+    "name": "Rough Elunium",
+    "price": 1000
+  },
+  "Oridecon_Stone": {
+    "name": "Rough Oridecon",
+    "price": 900
+  },
+  "Sharp_Leaf": {
+    "name": "Sharp Leaf",
+    "price": 1200
+  },
+  "Strawberry": {
+    "name": "Strawberry",
+    "price": 1200
+  },
+  "White_Herb": {
+    "name": "White Herb",
+    "price": 475
+  },
+  "Seed_Of_Yggdrasil": {
+    "name": "Yggdrasil Seed",
+    "price": 25000
   }
 }
