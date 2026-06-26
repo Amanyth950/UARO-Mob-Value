@@ -1,0 +1,22 @@
+{
+  "Elunium": {
+    "name": "Elunium",
+    "price": 6000
+  },
+  "Oridecon": {
+    "name": "Oridecon",
+    "price": 4000
+  },
+  "Strawberry": {
+    "name": "Strawberry",
+    "price": 1200
+  },
+  "Blue_Herb": {
+    "name": "Blue Herb",
+    "price": 2200
+  },
+  "Branch_Of_Dead_Tree": {
+    "name": "Dead Branch",
+    "price": 3000
+  }
+}
