@@ -16,6 +16,8 @@ The app is organized around searchable farming tables rather than raw database b
 - **Prices** supports NPC-only, read-only example, and editable personal price tables.
 - **Raw data** keeps the old spreadsheet-style escape hatch.
 
+Each tab includes a collapsed **Help / explanations** section with usage notes and value definitions.
+
 ## Run Locally
 
 Install dependencies:
