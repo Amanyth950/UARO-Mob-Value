@@ -104,8 +104,6 @@ Merchant Overcharge applies only to NPC sell values. Manual market prices overri
 
 `Map score` is a simple density proxy: `EV / kill * spawn count`. It is not a true zeny-per-hour estimate.
 
-`Income profile` estimates whether a monster is stable, swingy, or lottery-like based on how concentrated its EV is in the top drop.
-
 ## Streamlit Community Cloud
 
 Use `streamlit_app.py` as the app entrypoint. Streamlit installs packages from `requirements.txt` and loads the committed `monster_ev.csv`.
