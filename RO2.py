@@ -13,6 +13,29 @@ ELEMENT_PREFIXES = ("Ele_", "ELE_", "Element_", "ELEMENT_")
 st.set_page_config(page_title="Mob Value Planner", layout="wide")
 
 
+def apply_layout_css() -> None:
+    st.markdown(
+        """
+        <style>
+        [data-testid="stAppViewContainer"] .main .block-container {
+            max-width: min(1600px, calc(100vw - 3rem));
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            [data-testid="stAppViewContainer"] .main .block-container {
+                max-width: 100%;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+        </style>
+        """.strip(),
+        unsafe_allow_html=True,
+    )
+
+
 def as_float(value: Any, default: float = 0.0) -> float:
     try:
         if value is None or value == "":
@@ -644,6 +667,7 @@ def render_raw(df: pd.DataFrame) -> None:
 
 
 def main() -> None:
+    apply_layout_css()
     st.title("Mob Value Planner")
     st.caption("Monster value explorer, farming comparison tool, and price-table sandbox.")
     init_price_state()
