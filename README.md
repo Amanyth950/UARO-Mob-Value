@@ -97,14 +97,14 @@ For each monster:
 
 ```text
 drop_value = item_sell_price * (drop_chance / 10000)
-monster_ev = sum(drop_value for all drop slots)
+expected_value = sum(drop_value for all drop slots)
 ```
 
-The generated CSV stores baseline EV values and a `drops_json` column with the raw drop details. In the Streamlit UI, `RO2.py` recalculates EV live when you change the drop-rate multiplier, Overcharge setting, or selected price table. Each adjusted drop slot is capped at 100% before it contributes to EV.
+The generated CSV stores baseline expected value data and a `drops_json` column with the raw drop details. In the Streamlit UI, `RO2.py` recalculates expected value live when you change the drop-rate multiplier, Overcharge setting, or selected price table. Each adjusted drop slot is capped at 100% before it contributes to expected value.
 
 Merchant Overcharge applies only to NPC sell values. Manual market prices override NPC prices and are not multiplied by Overcharge.
 
-`Map score` is a simple density proxy: `EV / kill * spawn count`. It is not a true zeny-per-hour estimate.
+`Map score` is a simple density proxy: `Expected Value * spawn count`. It is not a true zeny-per-hour estimate.
 
 ## Streamlit Community Cloud
 
