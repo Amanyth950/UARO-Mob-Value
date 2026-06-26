@@ -6,12 +6,11 @@ Live app: https://uaro-zenymob.streamlit.app/
 
 Streamlit farming planner for exploring Ragnarok Online monster zeny value from Hercules pre-renewal monster, item, and spawn data.
 
-The app is now organized around farming decisions rather than raw database browsing:
+The app is organized around searchable farming tables rather than raw database browsing:
 
-- **Best farms** ranks monsters by EV, map density proxy, top-value drops, and income profile.
-- **Monster details** shows per-monster EV assumptions, drop contribution, price source, spawn summary, and capped-drop context.
-- **Compare** lets players compare multiple farms side by side.
-- **Maps** groups options by best parsed spawn map.
+- **Best farms** shows the filtered/sorted mob table. Select a mob row to inspect its drop value breakdown underneath the table.
+- **Compare** lets players compare multiple mobs side by side.
+- **Maps** groups mobs by parsed spawn map. Select a map row to show the mobs that spawn on that map underneath the table.
 - **Prices** supports NPC-only, guild/default, personal session, and imported/shared price tables.
 - **Raw data** keeps the old spreadsheet-style escape hatch.
 
@@ -96,7 +95,7 @@ The generated CSV stores baseline EV values and a `drops_json` column with the r
 
 Merchant Overcharge applies only to NPC sell values. Manual market prices override NPC prices and are not multiplied by Overcharge.
 
-`Map score` is a simple density proxy: `EV / kill * best-map spawn count`. It is not a true zeny-per-hour estimate.
+`Map score` is a simple density proxy: `EV / kill * spawn count`. It is not a true zeny-per-hour estimate.
 
 `Income profile` estimates whether a monster is stable, swingy, or lottery-like based on how concentrated its EV is in the top drop.
 
