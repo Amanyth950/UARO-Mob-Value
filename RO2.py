@@ -276,22 +276,16 @@ def summarize_drops(detail: pd.DataFrame, limit: int = 3) -> str:
     return ", ".join(f"{row['Item']} ({as_float(row['EV Share']):.0f}%)" for _, row in detail.head(limit).iterrows())
 
 
-def profile_from_detail(detail: pd.DataFrame) -> Tuple[str, float]:
+def top_value_share_from_detail(detail: pd.DataFrame) -> float:
     if detail.empty or as_float(detail["Adjusted EV"].sum(), 0.0) <= 0:
-        return "No value", 0.0
+        return 0.0
     total = as_float(detail["Adjusted EV"].sum(), 0.0)
-    top_share = as_float(detail["Adjusted EV"].max(), 0.0) / total * 100.0
-    if top_share >= 70:
-        return "Lottery", top_share
-    if top_share >= 45 or int((detail["Adjusted EV"] > 0).sum()) <= 2:
-        return "Swingy", top_share
-    return "Stable", top_share
+    return as_float(detail["Adjusted EV"].max(), 0.0) / total * 100.0
 
 
 def recalc_monster(row: pd.Series, multiplier: float, use_overcharge: bool, overcharge_rate: float, use_manual: bool, prices: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
     detail = drop_details_dataframe(parse_drops_json(row.get("drops_json", "")), multiplier, use_overcharge, overcharge_rate, use_manual, prices)
-    profile, top_share = profile_from_detail(detail)
-    return {"expected_value": as_float(detail["Adjusted EV"].sum(), 0.0) if not detail.empty else as_float(row.get("expected_value"), 0.0), "top_drops": summarize_drops(detail), "value_profile": profile, "top_value_share": top_share}
+    return {"expected_value": as_float(detail["Adjusted EV"].sum(), 0.0) if not detail.empty else as_float(row.get("expected_value"), 0.0), "top_drops": summarize_drops(detail), "top_value_share": top_value_share_from_detail(detail)}
 
 
 def apply_ui_ev_settings(df: pd.DataFrame, multiplier: float, use_overcharge: bool, overcharge_rate: float, use_manual: bool, prices: Dict[str, Dict[str, Any]]) -> pd.DataFrame:
@@ -301,7 +295,6 @@ def apply_ui_ev_settings(df: pd.DataFrame, multiplier: float, use_overcharge: bo
     derived = df.apply(lambda row: recalc_monster(row, multiplier, use_overcharge, overcharge_rate, use_manual, prices), axis=1)
     df["expected_value"] = derived.apply(lambda d: d["expected_value"])
     df["top_drops"] = derived.apply(lambda d: d["top_drops"])
-    df["value_profile"] = derived.apply(lambda d: d["value_profile"])
     df["top_value_share"] = derived.apply(lambda d: d["top_value_share"])
     expected = numeric_series(df, "expected_value")
     hp = numeric_series(df, "hp")
@@ -395,9 +388,9 @@ def filter_dataframe(df: pd.DataFrame, s: Dict[str, Any]) -> pd.DataFrame:
 
 
 def clean_table(df: pd.DataFrame) -> pd.DataFrame:
-    cols = ["name", "expected_value", "map_value_score", "ev_per_1k_hp", "value_profile", "top_drops", "level", "hp", "element_display", "best_map", "best_map_count", "is_boss", "has_mvp_drops", "id"]
+    cols = ["name", "expected_value", "map_value_score", "ev_per_1k_hp", "top_drops", "level", "hp", "element_display", "best_map", "best_map_count", "is_boss", "has_mvp_drops", "id"]
     visible = [c for c in cols if c in df.columns]
-    return df[visible].rename(columns={"name": "Monster", "expected_value": "EV / kill", "map_value_score": "Map score", "ev_per_1k_hp": "EV / 1k HP", "value_profile": "Income profile", "top_drops": "Main value drops", "element_display": "Element", "best_map": "Best map", "best_map_count": "Best-map spawns", "is_boss": "Boss", "has_mvp_drops": "Has MVP drops", "id": "ID", "level": "Level", "hp": "HP"})
+    return df[visible].rename(columns={"name": "Monster", "expected_value": "EV / kill", "map_value_score": "Map score", "ev_per_1k_hp": "EV / 1k HP", "top_drops": "Main value drops", "element_display": "Element", "best_map": "Best map", "best_map_count": "Best-map spawns", "is_boss": "Boss", "has_mvp_drops": "Has MVP drops", "id": "ID", "level": "Level", "hp": "HP"})
 
 
 def monster_options(df: pd.DataFrame) -> Dict[str, int]:
@@ -457,7 +450,7 @@ def render_selected_monster_drops(row: pd.Series, settings: Dict[str, Any], pric
         st.info(row.get("drops_summary") or "No drop details are available. Regenerate the CSV with drops_json if needed.")
         return
     capped = int((detail["Adjusted Chance"] >= 100.0).sum())
-    st.caption(f"Main value: {summarize_drops(detail, 5) or '-'} | profile: {row.get('value_profile', 'Unknown')} | capped drops: {capped}")
+    st.caption(f"Main value: {summarize_drops(detail, 5) or '-'} | capped drops: {capped}")
     st.dataframe(detail, use_container_width=True, hide_index=True)
     with st.expander("Spawn summary"):
         st.write(str(row.get("spawn_summary") or "No spawn summary available."))
@@ -486,7 +479,7 @@ def render_compare(df: pd.DataFrame) -> None:
     selected = st.multiselect("Pick 2-5 monsters", list(opts.keys()), default=list(opts.keys())[: min(3, len(opts))], max_selections=5)
     rows = [df.reset_index(drop=True).iloc[opts[label]] for label in selected]
     compare = pd.DataFrame([
-        {"Monster": r.get("name"), "EV / kill": as_float(r.get("expected_value")), "Map score": as_float(r.get("map_value_score")), "EV / 1k HP": as_float(r.get("ev_per_1k_hp")), "Profile": r.get("value_profile"), "Top value share": as_float(r.get("top_value_share")), "Best map": r.get("best_map"), "Spawns": as_int(r.get("best_map_count")), "Level": as_int(r.get("level")), "HP": as_int(r.get("hp")), "Element": r.get("element_display"), "Main drops": r.get("top_drops")} for r in rows
+        {"Monster": r.get("name"), "EV / kill": as_float(r.get("expected_value")), "Map score": as_float(r.get("map_value_score")), "EV / 1k HP": as_float(r.get("ev_per_1k_hp")), "Top value share": as_float(r.get("top_value_share")), "Best map": r.get("best_map"), "Spawns": as_int(r.get("best_map_count")), "Level": as_int(r.get("level")), "HP": as_int(r.get("hp")), "Element": r.get("element_display"), "Main drops": r.get("top_drops")} for r in rows
     ])
     st.dataframe(compare, use_container_width=True, hide_index=True)
 
@@ -508,7 +501,6 @@ def build_map_monster_rows(df: pd.DataFrame) -> pd.DataFrame:
                     "EV / kill": ev,
                     "Map score": ev * count,
                     "EV / 1k HP": as_float(row.get("ev_per_1k_hp"), 0.0),
-                    "Income profile": row.get("value_profile"),
                     "Main value drops": row.get("top_drops"),
                     "Level": as_int(row.get("level"), 0),
                     "HP": as_int(row.get("hp"), 0),
@@ -687,7 +679,6 @@ def main() -> None:
 - Each drop slot is capped at **100%** before EV is summed.
 - Manual player prices override NPC prices and do **not** receive Overcharge.
 - `Map score` is `EV / kill * spawn count`; it is a simple density proxy, not zeny/hour.
-- `Income profile` estimates whether value is stable, swingy, or lottery-like based on top-drop concentration.
 - Boss-flagged monsters and monsters with MVP drops are hidden by default.
         """.strip())
 
