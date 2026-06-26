@@ -17,17 +17,25 @@ def apply_layout_css() -> None:
     st.markdown(
         """
         <style>
+        [data-testid="stMainBlockContainer"],
+        section[data-testid="stMain"] > div,
+        section.main > div.block-container,
         [data-testid="stAppViewContainer"] .main .block-container {
-            max-width: min(1600px, calc(100vw - 3rem));
-            padding-left: 2rem;
-            padding-right: 2rem;
+            max-width: min(1700px, calc(100vw - 3rem)) !important;
+            width: 100% !important;
+            padding-left: 2rem !important;
+            padding-right: 2rem !important;
         }
 
         @media (max-width: 900px) {
+            [data-testid="stMainBlockContainer"],
+            section[data-testid="stMain"] > div,
+            section.main > div.block-container,
             [data-testid="stAppViewContainer"] .main .block-container {
-                max-width: 100%;
-                padding-left: 1rem;
-                padding-right: 1rem;
+                max-width: 100% !important;
+                width: 100% !important;
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
             }
         }
         </style>
