@@ -1,8 +1,8 @@
 # Mob Value Planner
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ro-zenymob.streamlit.app/)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://zenymob.streamlit.app/)
 
-Live app: https://ro-zenymob.streamlit.app/
+Live app: https://zenymob.streamlit.app/
 
 Unofficial fan-made utility for exploring pre-renewal RO monster zeny value from monster, item, and spawn data.
 
